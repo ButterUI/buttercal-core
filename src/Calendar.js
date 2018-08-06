@@ -5,7 +5,7 @@ import { subMonths, addMonths } from 'date-fns';
 import { TODAY, TOMORROW } from './constants';
 
 export default class Calendar {
-  constructor(date, {
+  constructor(date = new Date(), {
     monthsToShow = 1,
     defaultStart = TODAY.date,
     defaultEnd = TOMORROW.date,
