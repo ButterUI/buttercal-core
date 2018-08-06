@@ -7,6 +7,8 @@ ButterCal Core is a JavaScript library which allows you to create custom datepic
 ## Creating a new calendar
 
 ```javascript
+import Calendar from 'buttercal-core';
+
 const calendar = new Calendar();
 ```
 

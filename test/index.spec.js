@@ -1,32 +1,22 @@
 /* global describe, it, before */
 
 import chai from 'chai';
-import {Cat, Dog} from '../lib/webpack-library-starter.js';
+import AbstractDate from "../src/AbstractDate";
 
 chai.expect();
 
 const expect = chai.expect;
 
-let lib;
+let abstract1, abstract2;
 
-describe('Given an instance of my Cat library', () => {
+describe('Given I have two abstract dates created in the same day but with different times', () => {
   before(() => {
-    lib = new Cat();
+    abstract1 = new AbstractDate(new Date('1995-12-17t03:24:00'));
+    abstract2 = new AbstractDate(new Date('1995-12-17T01:24:00'));
   });
-  describe('when I need the name', () => {
-    it('should return the name', () => {
-      expect(lib.name).to.be.equal('Cat');
-    });
-  });
-});
-
-describe('Given an instance of my Dog library', () => {
-  before(() => {
-    lib = new Dog();
-  });
-  describe('when I need the name', () => {
-    it('should return the name', () => {
-      expect(lib.name).to.be.equal('Dog');
+  describe('when I call the equals() method', () => {
+    it('should return true', () => {
+      expect(abstract1.equals(abstract2)).to.be.equal(true);
     });
   });
 });
