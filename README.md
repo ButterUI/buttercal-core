@@ -32,7 +32,7 @@ calendar.nextMonth();
 ### prevMonth()
 
 ```javascript
-calendar.nextMonth();
+calendar.prevMonth();
 ```
 
 ### setMonths(date, monthsToShow)
