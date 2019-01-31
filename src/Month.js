@@ -23,7 +23,7 @@ export default class Month {
       month.push(new Day(
         current,
         {
-          inMonth: current.greaterThan(monthStart) && current.lessThan(monthEnd),
+          inMonth: current.greaterThanEqual(monthStart) && current.lessThanEqual(monthEnd),
           inFuture: current.greaterThan(TODAY),
           isToday: current.equals(TODAY),
           isSelected: (this.start || this.end) && (current.equals(this.start) || current.equals(this.end)),

@@ -24,6 +24,10 @@ export default class AbstractDate {
     return this.ts < ts;
   }
 
+  lessThanEqual({ts}) {
+    return this.ts <= ts;
+  }
+
   /**
    * Determines if the current AbstractDate is greater than the provided AbstractDate.
    * @param abstractDate
@@ -31,5 +35,9 @@ export default class AbstractDate {
    */
   greaterThan({ts}) {
     return this.ts > ts;
+  }
+
+  greaterThanEqual({ts}) {
+    return this.ts >= ts;
   }
 }

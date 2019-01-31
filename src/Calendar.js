@@ -87,7 +87,7 @@ export default class Calendar {
       })
     ];
     for (let i = 0; i < monthsToShow; i++) {
-      this.renderedMonths.push(new Month(new Date(addMonths(date, i+1)), {
+      this.renderedMonths.push(new Month(new Date(addMonths(date, i + 1)), {
         start: this.start,
         end: this.end,
         labelTemplate: this.labelTemplate

@@ -1,11 +1,11 @@
 import AbstractDate from './AbstractDate';
 import Month from './Month';
 import DaySelectionController from './DaySelectionBase/DaySelectionController';
-import { subMonths, addMonths } from 'date-fns';
-import { TODAY, TOMORROW } from './constants';
+import { subMonths, addMonths, startOfDay } from 'date-fns';
+import {MS_IN_DAY, TODAY, TOMORROW} from './constants';
 
 export default class Calendar {
-  constructor(date, {
+  constructor(date = new Date(), {
     monthsToShow = 1,
     defaultStart = TODAY.date,
     defaultEnd = TOMORROW.date,
@@ -29,6 +29,11 @@ export default class Calendar {
     this.today = TODAY;
     this.tomorrow = TOMORROW;
     this.setMonths(date);
+    this.events = [];
+  }
+
+  static getAbstractDate(date) {
+    return new AbstractDate(date);
   }
 
   /**
@@ -96,6 +101,56 @@ export default class Calendar {
     this.notifyObservers('monthChanged', {
       months: this.renderedMonths,
       type: 'set'
+    });
+  }
+
+  addCalEvent(event) {
+    if (!event.hasOwnProperty('start')) {
+      throw new Error('All calendar events must have a start date property');
+    }
+
+    if (!event.hasOwnProperty('end')) {
+      event.end = event.start;
+    }
+
+    event.start = +new Date(startOfDay(event.start));
+    event.end = +new Date(startOfDay(event.end));
+    event.duration = (event.end - event.start) / MS_IN_DAY + 1;
+
+    let rules = [
+      ts => (ts >= event.start && ts <= event.end)
+    ];
+
+    if (event.every) {
+      rules.push(
+        ts => (
+          (ts - event.start) % (MS_IN_DAY * event.every) >= 0 &&
+          (ts - event.start) % (MS_IN_DAY * event.every) <= event.end - event.start
+        )
+      );
+    }
+
+    this.events.push({
+      rules,
+      originalEvent: event,
+      id: event.id
+    });
+
+  }
+
+  addCalEvents(events) {
+    events.forEach(event => {
+      this.addCalEvent(event);
+    });
+
+    this.updateEvents();
+  }
+
+  updateEvents() {
+    this.renderedMonths.forEach(month => {
+      month.days.forEach(day => {
+        day.setEvents(this.events);
+      });
     });
   }
 
